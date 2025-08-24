@@ -4,6 +4,7 @@ export interface MenuItem {
   label: string;
   icon: IconType;
   path: string;
+  action: () => void;
 }
 
 export type MenuItems = Array<MenuItem>;

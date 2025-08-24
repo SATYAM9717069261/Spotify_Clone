@@ -1,30 +1,20 @@
+import NextImage from "next/image";
+import AppPref from "./AppPref";
+
 function Sidebar() {
   return (
     <div className="container h-full">
-      <div className="sidebar-header">
-        <img src="/images/logo.png" alt="Spotify Logo" />
+      <div className="sidebar-header w-full p-6 flex align-items-center justify-center">
+        <NextImage
+          src="./logo.svg"
+          height={60}
+          width={120}
+          alt="Spotify Logo"
+        />
       </div>
+
       <div className="sidebar-content">
-        <ul className="sidebar-menu">
-          <li className="sidebar-item">
-            <a href="#" className="sidebar-link">
-              <i className="fas fa-home"></i>
-              Home
-            </a>
-          </li>
-          <li className="sidebar-item">
-            <a href="#" className="sidebar-link">
-              <i className="fas fa-search"></i>
-              Search
-            </a>
-          </li>
-          <li className="sidebar-item">
-            <a href="#" className="sidebar-link">
-              <i className="fas fa-user"></i>
-              Profile
-            </a>
-          </li>
-        </ul>
+        <AppPref />
       </div>
     </div>
   );
