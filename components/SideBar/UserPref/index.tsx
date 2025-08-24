@@ -1,10 +1,10 @@
 import Link from "next/link";
 import navMenu from "./menu";
 
-export default function AppPref() {
+export default function UserPref() {
   return (
     <div className="sidebar-content p-4">
-      <ul className="sidebar-menu space-y-1">
+      <ul className="sidebar-menu space-y-2">
         {navMenu.map((item, index) => (
           <li key={index} className="sidebar-item">
             <Link

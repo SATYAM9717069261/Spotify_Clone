@@ -1,5 +1,6 @@
 import NextImage from "next/image";
 import AppPref from "./AppPref";
+import UserPref from "./UserPref";
 
 function Sidebar() {
   return (
@@ -13,8 +14,9 @@ function Sidebar() {
         />
       </div>
 
-      <div className="sidebar-content">
+      <div className="sidebar-content gap-2">
         <AppPref />
+        <UserPref />
       </div>
     </div>
   );
