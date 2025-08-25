@@ -3,8 +3,29 @@ import navMenu from "./menu";
 
 export default function PlayList() {
   return (
-    <div className="sidebar-content p-4 h-[12px] ">
+    <div className="sidebar-content p-4 h-[var(--playlist-height)] overflow-auto">
       <ul className="sidebar-menu space-y-1 ">
+        {navMenu.map((item, index) => (
+          <li key={index} className="sidebar-item">
+            <Link
+              href={item.path}
+              className="sidebar-link flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            >
+              <span className="truncate">{item.label}</span>
+            </Link>
+          </li>
+        ))}
+        {navMenu.map((item, index) => (
+          <li key={index} className="sidebar-item">
+            <Link
+              href={item.path}
+              className="sidebar-link flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            >
+              <span className="truncate">{item.label}</span>
+            </Link>
+          </li>
+        ))}
+
         {navMenu.map((item, index) => (
           <li key={index} className="sidebar-item">
             <Link

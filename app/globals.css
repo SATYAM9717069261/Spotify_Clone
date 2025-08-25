@@ -13,12 +13,16 @@
     --grape: 114, 35, 204;
 
     --side-menu-width: 300px;
-    --side-menu-height: calc(100% - var(--player-height));
-    --body-width: calc(100% - var(--side-menu-width));
+    --side-menu-height: calc(100vh - var(--player-height));
+    --body-width: calc(100vw - var(--side-menu-width));
     --body-height: var(--side-menu-height);
-    --player-width: 100%;
+    --player-width: 100vw;
     --player-height: 100px;
+    --playlist-height: calc(100vh - calc(372px+var(--player-height)));
+    /**420 upper section of playlist */
 
+    --grid-rows: var(--side-menu-height) var(--player-height);
+    --grid-cols: var(--side-menu-width) var(--body-width);
     background: rgb(var(--background));
 }
 

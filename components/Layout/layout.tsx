@@ -1,9 +1,15 @@
 import Sidebar from "@components/SideBar/sidebar";
-
+// grid-cols-[var(--side-menu-width) 1fr ]
+//  grid-rows-[1fr var(--side-menu-height)]]
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className=" absolute grid grid-cols-[var(--side-menu-width)] grid-rows-[var(--side-menu-height)] h-full w-full ">
-      <div className="row-span-2 bg-gray-900 text-white">
+    <div
+      className=" absolute grid
+      grid-rows-[var(--grid-rows)]
+      grid-cols-[var(--grid-cols)]
+      h-full w-full "
+    >
+      <div className="bg-gray-900 text-white">
         <Sidebar />
       </div>
 
