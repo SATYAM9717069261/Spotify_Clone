@@ -37,6 +37,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 --Note
 npx prisma db push
-npx prisma seed
+npx prisma db seed
 npx prisma migrate dev
 npx prisma studio

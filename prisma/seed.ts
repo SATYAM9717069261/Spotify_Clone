@@ -1,5 +1,6 @@
 import { PrismaClient } from "../app/generated/prisma";
 import { artistsData } from "./songs.data";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +20,32 @@ const run = async () => {
               url: song.url,
             })),
           },
+        },
+      });
+    }),
+  );
+
+  const salt = await bcrypt.genSalt();
+  const user = await prisma.user.upsert({
+    where: { email: "satyam@dev.com" },
+    update: {},
+    create: {
+      email: "satyam@dev.com",
+      name: "Satyam",
+      password: await bcrypt.hash("password", salt),
+    },
+  });
+  const songs = await prisma.song.findMany({}); // all songs
+  await Promise.all(
+    new Array(10).fill(1).map(async (_, i) => {
+      return prisma.playlist.create({
+        // we can't usert Because  in Upsert we need unique field and right now we don't have data , so we can't get any ids
+        data: {
+          name: `Playlist ${i + 1}`,
+          user: {
+            connect: { id: user.id },
+          },
+          songs: { connect: songs.map((song) => ({ id: song.id })) },
         },
       });
     }),
