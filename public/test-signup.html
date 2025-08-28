@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Signup API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #1db954;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #1ed760;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .instructions {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Spotify Clone - Test Signup API</h1>
+
+        <div class="instructions">
+            <strong>Instructions:</strong><br>
+            1. Fill out the form below<br>
+            2. Click "Test Signup" to send a POST request<br>
+            3. Check the result below and browser developer tools<br>
+            4. Open developer tools (F12) to see network requests
+        </div>
+
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" id="submitBtn">Test Signup</button>
+        </form>
+
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultDiv = document.getElementById('result');
+
+        // Function to display results
+        function displayResult(message, type = 'info') {
+            resultDiv.style.display = 'block';
+            resultDiv.className = `result ${type}`;
+            resultDiv.textContent = message;
+        }
+
+        // Function to test signup with fetch
+        async function testSignup(userData) {
+            try {
+                displayResult('Sending request...', 'loading');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+
+                console.log('Sending signup request:', userData);
+
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData),
+                    credentials: 'include', // Include cookies
+                });
+
+                const responseData = await response.json();
+
+                console.log('Response status:', response.status);
+                console.log('Response data:', responseData);
+                console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+                let resultMessage = `Status: ${response.status}\n`;
+                resultMessage += `Response:\n${JSON.stringify(responseData, null, 2)}`;
+
+                if (response.ok) {
+                    resultMessage += '\n\n✅ Signup successful!';
+                    if (responseData.user) {
+                        resultMessage += `\nUser created with ID: ${responseData.user.id}`;
+                    }
+                    displayResult(resultMessage, 'success');
+                    form.reset(); // Clear form on success
+                } else {
+                    resultMessage += `\n\n❌ Signup failed: ${responseData.message}`;
+                    displayResult(resultMessage, 'error');
+                }
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                displayResult(`❌ Network Error: ${error.message}\n\nCheck that your Next.js server is running on the correct port.`, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Test Signup';
+            }
+        }
+
+        // Form submit handler
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const userData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                password: formData.get('password')
+            };
+
+            // Basic validation
+            if (!userData.name || !userData.email || !userData.password) {
+                displayResult('❌ Please fill in all fields', 'error');
+                return;
+            }
+
+            if (userData.password.length < 6) {
+                displayResult('❌ Password should be at least 6 characters long', 'error');
+                return;
+            }
+
+            await testSignup(userData);
+        });
+
+        // Add some sample data for quick testing
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameField = document.getElementById('name');
+            const emailField = document.getElementById('email');
+            const passwordField = document.getElementById('password');
+
+            // You can uncomment these lines to pre-fill with test data
+            // nameField.value = 'Test User';
+            // emailField.value = 'test@example.com';
+            // passwordField.value = 'password123';
+        });
+
+        // Additional fetch method for programmatic testing
+        window.testSignupProgrammatically = async (name = 'Test User', email = 'test@example.com', password = 'password123') => {
+            await testSignup({ name, email, password });
+        };
+
+        // Log instructions to console
+        console.log(`
+🎵 Spotify Clone Signup API Tester
+
+Available functions in console:
+- testSignupProgrammatically(name, email, password) - Test signup programmatically
+
+Example usage:
+testSignupProgrammatically('John Doe', 'john@example.com', 'mypassword123');
+
+Make sure your Next.js development server is running with:
+npm run dev
+        `);
+    </script>
+</body>
+</html>
