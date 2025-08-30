@@ -1,11 +1,13 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
+
 import PrismaClient from "@libs/prisma";
+import { getToken } from "@libs/tokenGenerate";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log(" INSIDE ");
     const { email, password, name } = body;
 
     // Validate required fields
@@ -30,18 +32,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Generate JWT token
-    const token = jwt.sign(
-      {
-        email: user.email,
-        id: user.id,
-        time: Date.now(),
-      },
-      process.env.JWT_SECRET || "fallback-secret",
-      {
-        expiresIn: "12h",
-      },
-    );
-
+    const token = getToken(user);
     // Create response with user data (excluding password)
     const response = NextResponse.json(
       {
@@ -57,12 +48,12 @@ export async function POST(request: NextRequest) {
 
     // Set cookie
     response.cookies.set({
-      name: "token",
+      name: process.env.ACCESS_TOKEN || "testToken",
       value: token,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 12, // 12 hours
-      sameSite: "strict",
+      sameSite: "lax",
       path: "/",
     });
 

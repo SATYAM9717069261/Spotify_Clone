@@ -1,7 +1,11 @@
+import { Layout } from "@components/Layout/layout";
+
 export default function Profile() {
   return (
-    <div>
-      <h1>Profile</h1>
-    </div>
+    <Layout>
+      <div>
+        <h1>Profile</h1>
+      </div>
+    </Layout>
   );
 }

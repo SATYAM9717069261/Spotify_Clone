@@ -1,14 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import SignupForm from '@/components/SignupForm';
+import { useState } from "react";
+import SignupForm from "@/components/SignupForm";
 
 export default function TestSignupPage() {
   const [testResults, setTestResults] = useState<string[]>([]);
   const [isRunningTest, setIsRunningTest] = useState(false);
 
   const addTestResult = (result: string) => {
-    setTestResults(prev => [...prev, `${new Date().toLocaleTimeString()}: ${result}`]);
+    setTestResults((prev) => [
+      ...prev,
+      `${new Date().toLocaleTimeString()}: ${result}`,
+    ]);
   };
 
   const clearResults = () => {
@@ -18,24 +21,24 @@ export default function TestSignupPage() {
   // Test function that can be called programmatically
   const runAutomatedTest = async () => {
     setIsRunningTest(true);
-    addTestResult('🚀 Starting automated signup test...');
+    addTestResult("🚀 Starting automated signup test...");
 
     try {
       const testData = {
-        name: 'Test User ' + Math.random().toString(36).substr(2, 5),
+        name: "Test User " + Math.random().toString(36).substr(2, 5),
         email: `test${Date.now()}@example.com`,
-        password: 'password123'
+        password: "password123",
       };
 
       addTestResult(`📝 Test data: ${JSON.stringify(testData)}`);
 
-      const response = await fetch('/api/signup', {
-        method: 'POST',
+      const response = await fetch("/api/signup", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(testData),
-        credentials: 'include',
+        credentials: "include",
       });
 
       const result = await response.json();
@@ -47,7 +50,6 @@ export default function TestSignupPage() {
       } else {
         addTestResult(`❌ Failed: ${result.message}`);
       }
-
     } catch (error: any) {
       addTestResult(`💥 Error: ${error.message}`);
     } finally {
@@ -56,7 +58,9 @@ export default function TestSignupPage() {
   };
 
   const handleFormSuccess = (user: any) => {
-    addTestResult(`🎉 Form signup successful for user: ${user?.name} (${user?.email})`);
+    addTestResult(
+      `🎉 Form signup successful for user: ${user?.name} (${user?.email})`,
+    );
   };
 
   const handleFormError = (error: string) => {
@@ -73,7 +77,8 @@ export default function TestSignupPage() {
               🎵 Spotify Clone - Signup API Test
             </h1>
             <p className="text-gray-600">
-              Test the signup functionality using the form below or automated tests
+              Test the signup functionality using the form below or automated
+              tests
             </p>
           </div>
 
@@ -102,11 +107,11 @@ export default function TestSignupPage() {
                     disabled={isRunningTest}
                     className={`w-full py-3 px-4 rounded-md font-medium transition duration-200 ${
                       isRunningTest
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-blue-600 hover:bg-blue-700'
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700"
                     } text-white`}
                   >
-                    {isRunningTest ? 'Running Test...' : 'Run Automated Test'}
+                    {isRunningTest ? "Running Test..." : "Run Automated Test"}
                   </button>
 
                   <button
@@ -127,7 +132,9 @@ export default function TestSignupPage() {
                 </h3>
                 <div className="bg-gray-900 text-green-400 p-4 rounded-md font-mono text-sm max-h-96 overflow-y-auto">
                   {testResults.length === 0 ? (
-                    <p className="text-gray-500">No test results yet. Run a test to see results here.</p>
+                    <p className="text-gray-500">
+                      No test results yet. Run a test to see results here.
+                    </p>
                   ) : (
                     <div className="space-y-1">
                       {testResults.map((result, index) => (
@@ -146,25 +153,36 @@ export default function TestSignupPage() {
                   🔧 Testing Instructions
                 </h3>
                 <div className="text-blue-700 text-sm space-y-2">
-                  <p><strong>Form Testing:</strong></p>
+                  <p>
+                    <strong>Form Testing:</strong>
+                  </p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>Fill out the form on the left and click "Sign Up"</li>
                     <li>Check validation by leaving fields empty</li>
                     <li>Try duplicate emails to test error handling</li>
                   </ul>
 
-                  <p className="pt-2"><strong>Automated Testing:</strong></p>
+                  <p className="pt-2">
+                    <strong>Automated Testing:</strong>
+                  </p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>Click "Run Automated Test" for programmatic testing</li>
                     <li>Each test creates a unique user with timestamp</li>
                     <li>Results show in the console on the right</li>
                   </ul>
 
-                  <p className="pt-2"><strong>Browser Console:</strong></p>
+                  <p className="pt-2">
+                    <strong>Browser Console:</strong>
+                  </p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>Open DevTools (F12) to see network requests</li>
                     <li>Check Network tab for API call details</li>
-                    <li>Use console functions like <code className="bg-blue-100 px-1 rounded">testQuickSignup()</code></li>
+                    <li>
+                      Use console functions like{" "}
+                      <code className="bg-blue-100 px-1 rounded">
+                        testQuickSignup()
+                      </code>
+                    </li>
                   </ul>
                 </div>
               </div>

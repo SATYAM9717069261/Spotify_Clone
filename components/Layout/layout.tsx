@@ -1,6 +1,4 @@
 import Sidebar from "@components/SideBar/sidebar";
-// grid-cols-[var(--side-menu-width) 1fr ]
-//  grid-rows-[1fr var(--side-menu-height)]]
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
