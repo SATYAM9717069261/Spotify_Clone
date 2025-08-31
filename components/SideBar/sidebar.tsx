@@ -1,9 +1,13 @@
+"use client";
 import NextImage from "next/image";
 import AppPref from "./AppPref";
 import UserPref from "./UserPref";
 import PlayList from "./PlayList";
+import { usePlaylist } from "@hooks/usePlaylist";
 
 function Sidebar() {
+  const { playlists } = usePlaylist();
+  console.log(" details  => ", playlists);
   return (
     <div className="container h-full">
       <div className="sidebar-header w-full p-6 flex align-items-center justify-center">
@@ -18,7 +22,7 @@ function Sidebar() {
       <div className="sidebar-content gap-2">
         <AppPref />
         <UserPref />
-        <PlayList />
+        <PlayList playlists={playlists} />
       </div>
     </div>
   );

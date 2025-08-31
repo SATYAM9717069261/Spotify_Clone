@@ -1,7 +1,10 @@
 export type User = {
-  email: string;
   id: number;
-  [key: string]: any;
+  email: string;
+  name: string;
+  password?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type Fetcher = {

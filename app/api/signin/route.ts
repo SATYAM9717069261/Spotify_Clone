@@ -9,8 +9,6 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { email, password } = body;
 
-  console.log(" details  => ", body);
-
   const userDetails = await prisma.user.findUnique({
     where: {
       email: email,

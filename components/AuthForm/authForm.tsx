@@ -1,33 +1,88 @@
-import { FC } from "react";
+"use client";
+import { FC, useState } from "react";
 import { Mode } from "./type";
+import { authenticate, signinUser } from "@libs/api";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   mode: Mode;
 }
 
 const AuthForm: FC<AuthFormProps> = ({ mode }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      if (mode === "signin") {
+        await signinUser({ email, password });
+      } else {
+        await authenticate(mode, { email, password, name });
+      }
+      router.push("/");
+    } catch (err: any) {
+      setError(err.message || "Authentication failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="flex justify-center items-center min-h-screen ">
       <div className="flex self-center">
         <div className="bg-[var(--color-bg)] rounded-lg shadow-md p-10 transition-transform w-96 text-center">
           <h3 className="text-lg text-[var(--color-text-dark)]">
-            Enter your login credentials
+            {mode === "signin" ? "Sign In" : "Sign Up"}
           </h3>
 
-          <form action="">
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            {mode === "signup" && (
+              <>
+                <label
+                  htmlFor="name"
+                  className="block mt-4 mb-2 text-left text-[var(--color-text-dark)] font-bold"
+                >
+                  Full Name:
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter your full name"
+                  className="block w-full mb-6 px-4 py-2 border border-[var(--color-border)] rounded-md
+                             focus:outline-none focus:border-[var(--color-primary-hover)]"
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </>
+            )}
             <label
-              htmlFor="username"
+              htmlFor="email"
               className="block mt-4 mb-2 text-left text-[var(--color-text-dark)] font-bold"
             >
-              Username:
+              Email:
             </label>
             <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Enter your Username"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
               className="block w-full mb-6 px-4 py-2 border border-[var(--color-border)] rounded-md
                          focus:outline-none focus:border-[var(--color-primary-hover)]"
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <label
@@ -43,22 +98,24 @@ const AuthForm: FC<AuthFormProps> = ({ mode }) => {
               placeholder="Enter your Password"
               className="block w-full mb-6 px-4 py-2 border border-[var(--color-border)] rounded-md
                          focus:outline-none focus:border-[var(--color-primary-hover)]"
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
 
             <div className="flex justify-center items-center">
-              <button type="submit" className="btn-primary cursor-pointer">
-                Submit
+              <button
+                type="submit"
+                className="btn-primary cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isLoading}
+              >
+                {isLoading
+                  ? "Loading..."
+                  : mode === "signin"
+                    ? "Sign In"
+                    : "Sign Up"}
               </button>
             </div>
           </form>
-
-          <p className="mt-4 text-[var(--color-text-dark)]">
-            Not registered?{" "}
-            <a href="#" className="text-blue-500 hover:underline">
-              Create an account
-            </a>
-          </p>
         </div>
       </div>
     </div>
