@@ -3,8 +3,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
       className=" absolute grid
-      grid-rows-[var(--grid-rows)]
-      grid-cols-[var(--grid-cols)]
+      grid-rows-layout
+      grid-cols-layout
       h-full w-full "
     >
       <div className="bg-gray-900 text-white">

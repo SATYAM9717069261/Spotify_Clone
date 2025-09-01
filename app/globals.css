@@ -19,10 +19,15 @@
     --player-width: 100vw;
     --player-height: 100px;
     --playlist-height: calc(100vh - calc(372px+var(--player-height)));
+
+    --user-details-height: calc(100vh - var(--player-height));
+    --user-details-width: 80vw;
+
     /**420 upper section of playlist */
 
     --grid-rows: var(--side-menu-height) var(--player-height);
     --grid-cols: var(--side-menu-width) var(--body-width);
+
     background: rgb(var(--background));
 
     --color-primary: #16a34a; /* green-600 */
@@ -117,7 +122,9 @@
     }
 
     .card {
-        @apply bg-white border border-gray-200 rounded-lg shadow-sm;
+        @apply rounded-lg shadow-sm;
+        background: rgb(var(--card));
+        border: 1px solid rgb(var(--border));
     }
 
     .text-primary {
@@ -153,19 +160,64 @@
         width: var(--side-menu-width);
     }
 
+    .w-body-width {
+        width: var(--body-width);
+    }
+
+    .w-player-width {
+        width: var(--player-width);
+    }
+
+    .w-user-details-width {
+        width: var(--user-details-width);
+    }
+
+    /* Height utilities */
+    .h-side-menu {
+        height: var(--side-menu-height);
+    }
+
+    .h-body-height {
+        height: var(--body-height);
+    }
+
+    .h-player-height {
+        height: var(--player-height);
+    }
+
+    .h-playlist-height {
+        height: var(--playlist-height);
+    }
+
+    .h-user-details-height {
+        height: var(--user-details-height);
+    }
+
+    /* Margin utilities */
     .ml-side-menu {
         margin-left: var(--side-menu-width);
     }
 
+    /* Padding utilities */
     .pl-side-menu {
         padding-left: var(--side-menu-width);
     }
 
+    /* Position utilities */
     .left-side-menu {
         left: var(--side-menu-width);
     }
 
     .right-side-menu {
         right: var(--side-menu-width);
+    }
+
+    /* Grid utilities */
+    .grid-rows-layout {
+        grid-template-rows: var(--grid-rows);
+    }
+
+    .grid-cols-layout {
+        grid-template-columns: var(--grid-cols);
     }
 }
