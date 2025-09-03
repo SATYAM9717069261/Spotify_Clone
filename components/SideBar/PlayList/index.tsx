@@ -8,7 +8,8 @@ export default function PlayList({ playlists }) {
         {playlists.map((item, index) => (
           <li key={index} className="sidebar-item">
             <Link
-              href={"/"}
+              href={`/playlist/${item.id}`}
+              prefetch={false}
               className="sidebar-link flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition"
             >
               <span className="truncate">{item.name}</span>

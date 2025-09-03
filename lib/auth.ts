@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 export interface AuthenticatedUser {
   id: number;
   email: string;
-  name: string;
+  firstName: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -82,7 +82,7 @@ export async function validateUser(
       select: {
         id: true,
         email: true,
-        name: true,
+        firstName: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -192,7 +192,7 @@ export async function validateUserWithErrorDetails(
       select: {
         id: true,
         email: true,
-        name: true,
+        firstName: true,
         createdAt: true,
         updatedAt: true,
       },
