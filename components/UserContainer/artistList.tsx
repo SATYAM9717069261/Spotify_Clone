@@ -1,5 +1,11 @@
 import prisma from "@libs/prisma";
-
+const artistImage = [
+  "https://images.unsplash.com/profile-1592045711760-8f2d794304d2image?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop",
+  "https://images.unsplash.com/profile-1711641460182-914ca120d69fimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop",
+  "https://images.unsplash.com/profile-1709628445055-528baf3e58feimage?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop",
+  "https://images.unsplash.com/profile-1699557651871-54656a2f2f63image?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop",
+  "https://images.unsplash.com/profile-1687957948135-fbcfb0260786?w=150&dpr=1&crop=faces&bg=%23fff&h=150&auto=format&fit=crop&q=60&ixlib=rb-4.1.0",
+];
 export async function ArtistList() {
   const artists = await prisma.artist.findMany({});
   console.log(" LIST  => ", artists);
@@ -13,12 +19,19 @@ export async function ArtistList() {
       </div>
 
       {/* Horizontal scroll */}
-      <div className="flex flex-row overflow-auto w-body-width">
+      <div className="flex flex-row overflow-auto w-body-width gap-2">
         {artists.map((artist, i) => (
-          <div key={i} className="px-2 shrink-0">
+          <div
+            key={i}
+            className="px-2 shrink-0 "
+            style={{
+              background:
+                "linear-gradient(0deg, rgba(25, 45, 35, 0.23),100% , rgba(18, 11, 3, 0.12) 22.27%)",
+            }}
+          >
             <div className="rounded-md p-4 m-4 text-center">
               <img
-                src="https://dl.dropboxusercontent.com/s/bgiv0ssz3xpotz9/peep.png?dl=1"
+                src={artistImage[i]}
                 alt={artist.name}
                 className="rounded-full"
                 style={{ width: "130px", height: "130px" }}

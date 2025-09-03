@@ -7,11 +7,10 @@ import { getToken } from "@libs/tokenGenerate";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log(" INSIDE ");
-    const { email, password, name } = body;
+    const { email, password, firstName, lastName } = body;
 
     // Validate required fields
-    if (!email || !password || !name) {
+    if (!email || !password || !firstName || !lastName) {
       return NextResponse.json(
         { message: "Email, password, and name are required" },
         { status: 400 },
@@ -26,7 +25,8 @@ export async function POST(request: NextRequest) {
     const user = await PrismaClient.user.create({
       data: {
         email: email,
-        name: name,
+        firstName: firstName,
+        lastName: lastName,
         password: hashedPassword,
       },
     });
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
         user: {
           id: user.id,
           email: user.email,
-          name: user.name,
+          name: user.firstName + " " + user.lastName,
         },
       },
       { status: 201 },

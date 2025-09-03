@@ -6,22 +6,13 @@ export default function UserDetails() {
   const color = "#16a34a";
   return (
     <div
-      className="grid grid-template-rows-[auto_1fr] h-[var(--user-details-height)] overflow-auto"
+      className="grid grid-template-rows-[auto_1fr] h-[var(--user-details-height)] overflow-y-auto overflow-x-hidden"
       style={{
-        backgroundImage: `linear-gradient(${color} 0%,
-        ${color} 15%, ${color} 40%, rgba(0,0,0,0.95) 75%)`,
+        backgroundImage: `linear-gradient(${color} 10%,
+        ${color} 21%, ${color} 43%, rgba(0,0,0,0.95) 97%)`,
       }}
     >
-      <Profile
-        color={color}
-        subtitle="profile"
-        title="NAME HERE "
-        description="15 public Play list"
-        image={
-          "https://dl.dropboxusercontent.com/s/bgiv0ssz3xpotz9/peep.png?dl=0"
-        }
-        roundImage={true}
-      />
+      <Profile color={color} roundImage={true} />
       <div className="grid grid-rows-2 ">
         <ArtistList />
         <Tracks />
