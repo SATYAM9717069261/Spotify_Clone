@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 export interface AuthenticatedUser {
   id: number;
   email: string;
-  firstName: string;
+  name: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,19 +22,19 @@ export interface JWTPayload {
 export function validateRoute(handler: any) {
   return async (req: NextApiRequest) => {
     const tokenCookieName = process.env.ACCESS_TOKEN || "access_token";
-    const token: string = req.cookies.get(tokenCookieName).value ?? "";
+    const token: string = req.cookies.get(tokenCookieName).value || "";
 
-    console.log(" details Token => ", token, process.env.ACCESS_TOKEN);
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     try {
       const decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET || "fallback-secret",
+        process.env.JWT_SECRET || "TEST_TOKEN",
       ) as JWTPayload;
       const user = await prisma.user.findUnique({ where: { id: decoded.id } });
       if (!user) {
+        console.log(" data not found  => ", user);
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
       return handler(req, user);
@@ -82,7 +82,7 @@ export async function validateUser(
       select: {
         id: true,
         email: true,
-        firstName: true,
+        name: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -192,7 +192,7 @@ export async function validateUserWithErrorDetails(
       select: {
         id: true,
         email: true,
-        firstName: true,
+        name: true,
         createdAt: true,
         updatedAt: true,
       },

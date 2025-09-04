@@ -3,6 +3,7 @@ import prisma from "@libs/prisma";
 import { validateRoute } from "@libs/auth";
 
 export const GET = validateRoute(async (req: NextRequest, user: any) => {
+  console.log("user Details ", user);
   const playlists = await prisma.playlist.findMany({
     where: {
       userId: user.id,

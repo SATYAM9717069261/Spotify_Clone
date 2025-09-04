@@ -1,4 +1,5 @@
 import Sidebar from "@components/SideBar/sidebar";
+import PlayerBar from "@components/UserContainer/playerBar";
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
@@ -12,7 +13,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       <div className="bg-gray-100">{children}</div>
-      <div className="col-span-2 bg-black text-white">Player</div>
+      <PlayerBar />
+      {/** <div className="col-span-2 bg-black text-white"></div> **/}
     </div>
   );
 }

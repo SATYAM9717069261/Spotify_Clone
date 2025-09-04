@@ -1,4 +1,4 @@
-declare module 'jsonwebtoken' {
+declare module "jsonwebtoken" {
   export interface JwtPayload {
     [key: string]: any;
     iss?: string | undefined;
@@ -41,17 +41,17 @@ declare module 'jsonwebtoken' {
   }
 
   export class JsonWebTokenError extends Error {
-    name: 'JsonWebTokenError';
+    name: "JsonWebTokenError";
     message: string;
   }
 
   export class TokenExpiredError extends JsonWebTokenError {
-    name: 'TokenExpiredError';
+    name: "TokenExpiredError";
     expiredAt: Date;
   }
 
   export class NotBeforeError extends JsonWebTokenError {
-    name: 'NotBeforeError';
+    name: "NotBeforeError";
     date: Date;
   }
 
@@ -73,15 +73,59 @@ declare module 'jsonwebtoken' {
   ): null | JwtPayload | string;
 }
 
-declare module 'bcrypt' {
+declare module "bcrypt" {
   export function genSalt(rounds?: number): Promise<string>;
   export function genSaltSync(rounds?: number): string;
 
-  export function hash(data: string | Buffer, salt: string | number): Promise<string>;
-  export function hashSync(data: string | Buffer, salt: string | number): string;
+  export function hash(
+    data: string | Buffer,
+    salt: string | number,
+  ): Promise<string>;
+  export function hashSync(
+    data: string | Buffer,
+    salt: string | number,
+  ): string;
 
-  export function compare(data: string | Buffer, encrypted: string): Promise<boolean>;
-  export function compareSync(data: string | Buffer, encrypted: string): boolean;
+  export function compare(
+    data: string | Buffer,
+    encrypted: string,
+  ): Promise<boolean>;
+  export function compareSync(
+    data: string | Buffer,
+    encrypted: string,
+  ): boolean;
 
   export function getRounds(encrypted: string): number;
+}
+
+declare module "react-howler" {
+  import * as React from "react";
+
+  export interface ReactHowlerProps {
+    src: string;
+    format?: string[];
+    playing?: boolean;
+    mute?: boolean;
+    loop?: boolean;
+    volume?: number;
+    rate?: number;
+    seek?: number;
+    html5?: boolean;
+    onLoad?: () => void;
+    onLoadError?: (id: number) => void;
+    onPlay?: () => void;
+    onPause?: () => void;
+    onStop?: () => void;
+    onEnd?: () => void;
+    onSeek?: () => void;
+    onVolume?: () => void;
+    onRate?: () => void;
+    onFade?: () => void;
+    ref?: React.RefObject<any>;
+  }
+
+  export default class ReactHowler extends React.Component<ReactHowlerProps> {
+    duration(): number;
+    seek(seek?: number): number;
+  }
 }

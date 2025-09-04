@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import prisma from "@libs/prisma";
+import GradientLayout from "@components/Layout/gradientLayout";
+import SongTable from "@components/UserContainer/songtable";
 
 interface JWTPayload {
   id: number;
@@ -108,38 +110,16 @@ export default async function Playlist({ params }: { params: { id: string } }) {
   }
 
   const color = getBGColor(params.id);
-
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <h1 className="text-4xl font-bold text-white mb-2">{playlist.name}</h1>
-        <p className="text-gray-300">
-          {playlist.songs.length} song{playlist.songs.length !== 1 ? "s" : ""}
-        </p>
-        <p className="text-sm text-gray-400">User ID: {user.id}</p>
-      </div>
-
-      <div className="space-y-2">
-        {playlist.songs.map((song, index) => (
-          <div
-            key={song.id}
-            className="flex items-center space-x-4 p-3 hover:bg-gray-800 rounded"
-          >
-            <span className="text-gray-400 w-6">{index + 1}</span>
-            <div className="flex-1">
-              <p className="text-white font-medium">{song.name}</p>
-              <p className="text-gray-400 text-sm">{song.artist.name}</p>
-            </div>
-            <span className="text-gray-400 text-sm">{song.duration}</span>
-          </div>
-        ))}
-      </div>
-
-      {playlist.songs.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-400">No songs in this playlist</p>
-        </div>
-      )}
-    </div>
+    <GradientLayout
+      color={color}
+      roundImage={false}
+      title={playlist.name}
+      subtitle="playlist"
+      description={`${playlist.songs.length} songs`}
+      image={`https://picsum.photos/400?random=${playlist.id}`}
+    >
+      <SongTable songs={playlist.songs} />
+    </GradientLayout>
   );
 }
