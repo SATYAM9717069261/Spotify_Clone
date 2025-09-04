@@ -13,10 +13,10 @@ import {
 import { useStoreActions } from "easy-peasy";
 import { formatTime } from "@libs/formatters";
 
-const Player = ({ songs, activeSong }) => {
+const Player = ({ songs, activeSong }: { songs: any[]; activeSong: any }) => {
   const [playing, setPlaying] = useState(true);
   const [index, setIndex] = useState(
-    songs.findIndex((s) => s.id === activeSong.id),
+    songs.findIndex((s: any) => s.id === activeSong.id),
   );
   const [seek, setSeek] = useState(0.0);
   const [isSeeking, setIsSeeking] = useState(false);
@@ -28,7 +28,7 @@ const Player = ({ songs, activeSong }) => {
   const setActiveSong = useStoreActions((state: any) => state.changeActiveSong);
 
   useEffect(() => {
-    let timerId: number;
+    let timerId: number = 0;
 
     if (playing && !isSeeking) {
       const f = () => {
@@ -55,14 +55,14 @@ const Player = ({ songs, activeSong }) => {
     setPlaying(value);
   };
 
-  const onShuffle = () => setShuffle((s) => !s);
-  const onRepeat = () => setRepeat((s) => !s);
+  const onShuffle = (): void => setShuffle((s) => !s);
+  const onRepeat = (): void => setRepeat((s) => !s);
 
-  const prevSong = () =>
-    setIndex((state) => (state ? state - 1 : songs.length - 1));
+  const prevSong = (): void =>
+    setIndex((state: any) => (state ? state - 1 : songs.length - 1));
 
-  const nextSong = () =>
-    setIndex((state) => {
+  const nextSong = (): void =>
+    setIndex((state: any) => {
       if (shuffle) {
         const next = Math.floor(Math.random() * songs.length);
         if (next === state) return nextSong();
@@ -71,7 +71,7 @@ const Player = ({ songs, activeSong }) => {
       return state === songs.length - 1 ? 0 : state + 1;
     });
 
-  const onEnd = () => {
+  const onEnd = (): void => {
     if (repeatRef.current) {
       setSeek(0);
       soundRef.current.seek(0);
@@ -80,12 +80,12 @@ const Player = ({ songs, activeSong }) => {
     }
   };
 
-  const onLoad = () => {
+  const onLoad = (): void => {
     const songDuration = soundRef.current.duration();
     setDuration(songDuration);
   };
 
-  const onSeek = (e: any) => {
+  const onSeek = (e: any): void => {
     const value = parseFloat(e.target.value);
     setSeek(value);
     soundRef.current.seek(value);

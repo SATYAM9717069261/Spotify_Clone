@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         message: "Signup successful",
         user: {
           email: userDetails.email,
-          name: userDetails.name,
+          name: `${userDetails.firstName} ${userDetails.lastName}`,
         },
       },
       { status: 201 },

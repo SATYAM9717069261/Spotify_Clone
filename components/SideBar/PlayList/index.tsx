@@ -1,11 +1,11 @@
 import Link from "next/link";
 import navMenu from "./menu";
 
-export default function PlayList({ playlists }) {
+export default function PlayList({ playlists }: { playlists: any }) {
   return (
     <div className="sidebar-content p-4 h-[var(--playlist-height)] overflow-auto">
       <ul className="sidebar-menu space-y-1 ">
-        {playlists.map((item, index) => (
+        {playlists.map((item: any, index: number) => (
           <li key={index} className="sidebar-item">
             <Link
               href={`/playlist/${item.id}`}

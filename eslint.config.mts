@@ -1,6 +1,9 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import react from "eslint-plugin-react";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import prettier from "eslint-plugin-prettier";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,20 +23,23 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
 
-    plugins: ["react", "@typescript-eslint", "prettier"],
-    env: {
-      browser: true,
-      es2021: true,
-      node: true,
+    plugins: {
+      react,
+      "@typescript-eslint": tseslint,
+      prettier,
     },
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-      ecmaFeatures: {
-        jsx: true,
+
+    languageOptions: {
+      parser: "@typescript-eslint/parser",
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 13,
+        sourceType: "module",
       },
-      ecmaVersion: 13,
-      sourceType: "module",
     },
+
     rules: {
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",

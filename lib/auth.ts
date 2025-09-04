@@ -7,7 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 export interface AuthenticatedUser {
   id: number;
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,7 +23,7 @@ export interface JWTPayload {
 export function validateRoute(handler: any) {
   return async (req: NextApiRequest) => {
     const tokenCookieName = process.env.ACCESS_TOKEN || "access_token";
-    const token: string = req.cookies.get(tokenCookieName).value || "";
+    const token: string = req.cookies[tokenCookieName] || "";
 
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -82,7 +83,8 @@ export async function validateUser(
       select: {
         id: true,
         email: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -192,7 +194,8 @@ export async function validateUserWithErrorDetails(
       select: {
         id: true,
         email: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         createdAt: true,
         updatedAt: true,
       },

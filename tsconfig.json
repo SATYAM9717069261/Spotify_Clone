@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
+    "target": "ES2022",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -19,16 +21,33 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@hooks/*": ["./hooks/*"],
-      "@components/*": ["./components/*"],
-      "@common/*": ["./common/*"],
-      "@libs/*": ["./lib/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@common/*": [
+        "./common/*"
+      ],
+      "@libs/*": [
+        "./lib/*"
+      ]
     },
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true
   },
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "require": [
+      "tsconfig-paths/register"
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -36,7 +55,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "types/**/*.d.ts",
-    "app/api/signup"
+    "app/api/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
