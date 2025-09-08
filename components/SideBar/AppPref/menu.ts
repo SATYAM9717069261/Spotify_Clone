@@ -1,13 +1,7 @@
-import {
-  MdHome,
-  MdSearch,
-  MdLibraryMusic,
-  MdPlaylistAdd,
-  MdFavorite,
-} from "react-icons/md";
+import { MdHome, MdSearch, MdLibraryMusic } from "react-icons/md";
 import { actions } from "./actions";
 
-import type { MenuItems } from "./menu.type.ts";
+import type { MenuItems } from "./menu.type";
 
 const navMenu: MenuItems = [
   {
@@ -21,7 +15,6 @@ const navMenu: MenuItems = [
     label: "Search",
     id: "sideMenu_2",
     icon: MdSearch,
-    path: "/search",
     action: actions.search,
   },
   {

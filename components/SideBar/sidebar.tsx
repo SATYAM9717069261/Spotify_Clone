@@ -4,12 +4,17 @@ import AppPref from "./AppPref";
 import UserPref from "./UserPref";
 import PlayList from "./PlayList";
 import { usePlaylist } from "@hooks/usePlaylist";
+import useAddElement from "@hooks/useAddElement";
 
-function Sidebar() {
+import OnScreenActions from "@components/OnScreenActions/OnScreenActions";
+
+const Sidebar = () => {
   const { playlists } = usePlaylist();
-  console.log(" details  => ", playlists);
+  const { element, addElement, clearElement } = useAddElement();
+  console.log(" element => ", element);
   return (
     <div className="container h-full">
+      <OnScreenActions dom={element && element.dom} callback={clearElement} />
       <div className="sidebar-header w-full p-6 flex align-items-center justify-center">
         <NextImage
           src="./logo.svg"
@@ -20,11 +25,12 @@ function Sidebar() {
       </div>
 
       <div className="sidebar-content gap-2">
-        <AppPref />
+        <AppPref addElement={addElement} />
         <UserPref />
+
         <PlayList playlists={playlists} />
       </div>
     </div>
   );
-}
+};
 export default Sidebar;

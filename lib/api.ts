@@ -2,7 +2,8 @@ import fetcher from "./fetcher";
 import { AuthMode, User } from "./types";
 
 export interface SignupData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
@@ -12,7 +13,8 @@ export interface SignupResponse {
   user?: {
     id: number;
     email: string;
-    name: string;
+    firstName: string;
+    lastName: string;
   };
 }
 
@@ -80,7 +82,10 @@ export async function signinUser(
   return data;
 }
 
-export async function authenticate(mode: AuthMode, details: any) {
+export async function authenticate(
+  mode: AuthMode,
+  details: SignupData | SigninData,
+) {
   if (mode === "signin") {
     return signinUser(details as SigninData);
   } else if (mode === "signup") {

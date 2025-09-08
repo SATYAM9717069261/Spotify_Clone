@@ -1,6 +1,6 @@
 import Sidebar from "@components/SideBar/sidebar";
 import PlayerBar from "@components/UserContainer/playerBar";
-export function Layout({ children }: { children: React.ReactNode }) {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       className=" absolute grid
@@ -14,7 +14,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       <div className="bg-gray-100">{children}</div>
       <PlayerBar />
-      {/** <div className="col-span-2 bg-black text-white"></div> **/}
     </div>
   );
-}
+};
+
+export default Layout;

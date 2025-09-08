@@ -1,8 +1,10 @@
 "use client";
+
 import { FC, useState } from "react";
 import { Mode } from "./type";
 import { authenticate, signinUser } from "@libs/api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface AuthFormProps {
   mode: Mode;
@@ -11,7 +13,8 @@ interface AuthFormProps {
 const AuthForm: FC<AuthFormProps> = ({ mode }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -25,10 +28,11 @@ const AuthForm: FC<AuthFormProps> = ({ mode }) => {
       if (mode === "signin") {
         await signinUser({ email, password });
       } else {
-        await authenticate(mode, { email, password, name });
+        await authenticate(mode, { email, password, firstName, lastName });
       }
       router.push("/");
     } catch (err: any) {
+      console.log(" details => ", err.message);
       setError(err.message || "Authentication failed");
     } finally {
       setIsLoading(false);
@@ -52,19 +56,36 @@ const AuthForm: FC<AuthFormProps> = ({ mode }) => {
             {mode === "signup" && (
               <>
                 <label
-                  htmlFor="name"
+                  htmlFor="firstName"
                   className="block mt-4 mb-2 text-left text-[var(--color-text-dark)] font-bold"
                 >
-                  Full Name:
+                  First Name:
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Enter your full name"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="Enter your first name"
                   className="block w-full mb-6 px-4 py-2 border border-[var(--color-border)] rounded-md
                              focus:outline-none focus:border-[var(--color-primary-hover)]"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+
+                <label
+                  htmlFor="LastName"
+                  className="block mt-4 mb-2 text-left text-[var(--color-text-dark)] font-bold"
+                >
+                  Last Name:
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Enter your last name"
+                  className="block w-full mb-6 px-4 py-2 border border-[var(--color-border)] rounded-md
+                                             focus:outline-none focus:border-[var(--color-primary-hover)]"
+                  onChange={(e) => setLastName(e.target.value)}
                   required
                 />
               </>
@@ -114,6 +135,14 @@ const AuthForm: FC<AuthFormProps> = ({ mode }) => {
                     ? "Sign In"
                     : "Sign Up"}
               </button>
+              <Link
+                href="/signup"
+                className="ml-4 text-[var(--color-primary)] hover:text-[var(--color-primary-hover)]"
+              >
+                {mode === "signin"
+                  ? "Don't have an account?"
+                  : "Already have an account?"}
+              </Link>
             </div>
           </form>
         </div>
