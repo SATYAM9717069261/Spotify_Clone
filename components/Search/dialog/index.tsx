@@ -1,11 +1,15 @@
 import type { JSX } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./style.module.css";
 import { onScreenActionTypeSet } from "@components/OnScreenActions/type";
+import { useSearch } from "@hooks/useSearch";
 
 const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
-  console.log(" detail => ", setter);
-
+  const { setQuery, results, isLoading } = useSearch(600);
+  const [recent, setRecent] = useState<{ title: string; subtitle?: string }[]>(
+    [],
+  );
+  console.log(" result => ", results);
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -17,15 +21,20 @@ const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const recent = [
-    { title: "z-index" },
-    { title: "filter: blur()", subtitle: "Examples" },
-    {
-      title: "Modal Dialogs",
-      subtitle: "Components / Application UI / Overlays",
-    },
-    { title: "Buttons", subtitle: "Components / Application UI / Elements" },
-  ];
+  useEffect(() => {
+    if (!results) return;
+    setRecent([
+      ...(results?.song?.map((song) => ({
+        title: song.name,
+        subtitle: "Song",
+      })) || []),
+      ...(results?.artist?.map((artist) => ({
+        title: artist.name,
+        subtitle: "Artist",
+      })) || []),
+    ]);
+  }, [results]);
+
   return (
     <div
       className={`fixed inset-0 bg-black/50 flex items-start justify-center p-4 z-50 ${styles.dialog}`}
@@ -39,6 +48,7 @@ const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
           <input
             type="text"
             placeholder="Search documentation"
+            onChange={(e) => setQuery(e.target.value)}
             className="w-full bg-transparent outline-none text-white placeholder-gray-400"
           />
           <span className="cursor-pointer" onClick={() => setter(null)}>
@@ -46,25 +56,40 @@ const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
             close
           </span>
         </div>
-
-        {/* Recent Section */}
         <div className="p-4">
-          <h3 className="text-sm text-gray-400 mb-2">Recent</h3>
           <ul className="space-y-2">
-            {recent.map((item, i) => (
-              <li
-                key={i}
-                className="flex justify-between items-center px-3 py-2 rounded-md hover:bg-gray-700 cursor-pointer"
-              >
-                <div>
-                  {item.subtitle && (
-                    <p className="text-xs text-gray-400">{item.subtitle}</p>
-                  )}
-                  <p className="text-white">{item.title}</p>
-                </div>
-                <button className="text-gray-400 hover:text-white">×</button>
-              </li>
-            ))}
+            {isLoading
+              ? Array.from({ length: 5 }).map((_, i) => (
+                  <li
+                    key={i}
+                    className="flex justify-between flex-row items-center px-3 py-2 rounded-md bg-gray-800 animate-pulse"
+                  >
+                    <div
+                      className="flex-1 space-y-2 flex-col"
+                      style={{ width: "100%" }}
+                    >
+                      <div className="h-3 bg-gray-400 rounded w-1/2"></div>
+                      <div className="h-4 bg-gray-500 rounded w-3/4"></div>
+                    </div>
+                    <div className="h-5 w-5 bg-gray-600 rounded-full"></div>
+                  </li>
+                ))
+              : recent.map((item, i) => (
+                  <li
+                    key={i}
+                    className="flex justify-between items-center px-3 py-2 rounded-md hover:bg-gray-700 cursor-pointer"
+                  >
+                    <div>
+                      {item.subtitle && (
+                        <p className="text-xs text-gray-400">{item.subtitle}</p>
+                      )}
+                      <p className="text-white">{item.title}</p>
+                    </div>
+                    <button className="text-gray-400 hover:text-white">
+                      ×
+                    </button>
+                  </li>
+                ))}
           </ul>
         </div>
       </div>
