@@ -9,7 +9,7 @@ interface SongTableProps {
   songs: Song[];
 }
 
-export default function SongTable({ songs }: SongTableProps) {
+const SongTable = ({ songs }: SongTableProps) => {
   const playSongs = useStoreActions<StoreModel>(
     (actions) => actions.changeActiveSongs,
   );
@@ -73,4 +73,5 @@ export default function SongTable({ songs }: SongTableProps) {
       </div>
     </div>
   );
-}
+};
+export default SongTable;

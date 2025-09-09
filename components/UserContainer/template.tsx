@@ -1,8 +1,9 @@
+import { JSX } from "react/jsx-dev-runtime";
 import { ArtistList } from "./artistList";
 import { Profile } from "./profile";
 import { Tracks } from "./tracks";
 
-export default function UserDetails() {
+const UserDetails = (): JSX.Element => {
   const color = "#16a34a";
   return (
     <div
@@ -19,4 +20,6 @@ export default function UserDetails() {
       </div>
     </div>
   );
-}
+};
+
+export default UserDetails;

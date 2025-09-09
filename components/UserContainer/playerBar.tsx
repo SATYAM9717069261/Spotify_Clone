@@ -13,7 +13,7 @@ export default function PlayerBar() {
         {activeSong ? (
           <div className="p-5 text-white w-1/3">
             <p className="text-lg font-medium">{activeSong.name}</p>
-            <p className="text-sm text-gray-400">{activeSong.artist.name}</p>
+            <p className="text-sm text-gray-400">{activeSong?.artist?.name}</p>
           </div>
         ) : null}
         <div className="w-2/5">

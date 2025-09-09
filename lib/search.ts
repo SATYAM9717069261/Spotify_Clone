@@ -1,3 +1,4 @@
+import { url } from "node:inspector/promises";
 import prisma from "./prisma";
 
 type searchType = "song" | "artist";
@@ -26,7 +27,9 @@ export default async function search(options: SearchOptions) {
 
 async function song(query: string) {
   return prisma.song.findMany({
-    where: { name: { contains: query, mode: "insensitive" } },
+    where: {
+      name: { contains: query, mode: "insensitive" },
+    },
   });
 }
 

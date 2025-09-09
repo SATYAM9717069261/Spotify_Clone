@@ -3,17 +3,25 @@ import { useState, useEffect } from "react";
 import styles from "./style.module.css";
 import { onScreenActionTypeSet } from "@components/OnScreenActions/type";
 import { useSearch } from "@hooks/useSearch";
+import Link from "next/link";
+import { useStoreActions } from "easy-peasy";
+import { Song, StoreModel } from "@libs/store";
 
 const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
   const { setQuery, results, isLoading } = useSearch(600);
   const [recent, setRecent] = useState<{ title: string; subtitle?: string }[]>(
     [],
   );
-  console.log(" result => ", results);
+  const playSongs = useStoreActions<StoreModel>(
+    (actions) => actions.changeActiveSongs,
+  );
+  const setActiveSong = useStoreActions<StoreModel>(
+    (actions) => actions.changeActiveSong,
+  );
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        console.log(" settle => ", setter);
         setter(null);
       }
     };
@@ -27,10 +35,17 @@ const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
       ...(results?.song?.map((song) => ({
         title: song.name,
         subtitle: "Song",
+        url: song.url,
+        artistId: song.artistId,
+        id: song.id,
+        duration: song.duration,
+        name: song.name,
+        url: song.url,
       })) || []),
       ...(results?.artist?.map((artist) => ({
         title: artist.name,
         subtitle: "Artist",
+        redirection: "/artist/" + artist.id,
       })) || []),
     ]);
   }, [results]);
@@ -79,12 +94,16 @@ const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
                     key={i}
                     className="flex justify-between items-center px-3 py-2 rounded-md hover:bg-gray-700 cursor-pointer"
                   >
-                    <div>
-                      {item.subtitle && (
-                        <p className="text-xs text-gray-400">{item.subtitle}</p>
-                      )}
-                      <p className="text-white">{item.title}</p>
-                    </div>
+                    {(item?.redirection ?? false) ? (
+                      <WithLink item={item} />
+                    ) : (
+                      <WithOutLink
+                        item={item}
+                        setActiveSong={setActiveSong}
+                        playSongs={playSongs}
+                      />
+                    )}
+
                     <button className="text-gray-400 hover:text-white">
                       ×
                     </button>
@@ -93,6 +112,42 @@ const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
           </ul>
         </div>
       </div>
+    </div>
+  );
+};
+const WithLink = ({ item }: { item: any }) => {
+  return (
+    <Link href={item?.redirection}>
+      {item.subtitle && (
+        <p className="text-xs text-gray-400">{item.subtitle}</p>
+      )}
+      <p className="text-white">{item.title}</p>
+    </Link>
+  );
+};
+
+const WithOutLink = ({
+  item,
+  setActiveSong,
+  playSongs,
+}: {
+  item: any;
+  setActiveSong: (song: Song) => void;
+  playSongs: (songs: Song[]) => void;
+}) => {
+  const handlePlay = (activeSong?: Song) => {
+    playSongs([item]);
+    setActiveSong(activeSong);
+  };
+
+  console.log(" details => ", item);
+
+  return (
+    <div onClick={() => handlePlay(item)}>
+      {item.subtitle && (
+        <p className="text-xs text-gray-400">{item.subtitle}</p>
+      )}
+      <p className="text-white">{item.title}</p>
     </div>
   );
 };

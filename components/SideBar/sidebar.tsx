@@ -11,17 +11,11 @@ import OnScreenActions from "@components/OnScreenActions/OnScreenActions";
 const Sidebar = () => {
   const { playlists } = usePlaylist();
   const { element, addElement, clearElement } = useAddElement();
-  console.log(" element => ", element);
   return (
     <div className="container h-full">
       <OnScreenActions dom={element && element.dom} callback={clearElement} />
       <div className="sidebar-header w-full p-6 flex align-items-center justify-center">
-        <NextImage
-          src="./logo.svg"
-          height={60}
-          width={120}
-          alt="Spotify Logo"
-        />
+        <NextImage src="/logo.svg" height={60} width={120} alt="Spotify Logo" />
       </div>
 
       <div className="sidebar-content gap-2">

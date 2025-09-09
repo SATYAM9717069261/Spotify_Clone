@@ -7,7 +7,7 @@ interface ProfileProps {
   roundImage?: boolean;
 }
 
-export function Profile({ color, roundImage }: ProfileProps) {
+export const Profile = ({ color, roundImage }: ProfileProps) => {
   const { user, isLoading } = useMe();
 
   if (isLoading) {
@@ -44,18 +44,16 @@ export function Profile({ color, roundImage }: ProfileProps) {
       </div>
     );
   }
-
   return (
     <div className="h-full">
       <div className={`flex items-end bg-[${color}] p-10`}>
         <div className="p-5">
-          <img
-            src="https://dl.dropboxusercontent.com/s/bgiv0ssz3xpotz9/peep.png?dl=0"
-            alt={user?.title}
-            className={`w-40 h-40 shadow-2xl ${
-              roundImage ? "rounded-full" : "rounded-md"
-            }`}
-          />
+          <div
+            className={`w-40 h-40 shadow-2xl ${roundImage ? "rounded-full" : "rounded-md"} flex items-center justify-center`}
+            style={{ fontSize: `10rem`, fontFamily: "Arial, sans-serif" }}
+          >
+            {user?.firstName[0].toUpperCase()}
+          </div>
         </div>
         <div className="p-5 text-white leading-10">
           <p className="text-[10px] font-bold uppercase">profile</p>
@@ -65,4 +63,4 @@ export function Profile({ color, roundImage }: ProfileProps) {
       </div>
     </div>
   );
-}
+};

@@ -6,10 +6,8 @@ const artistImage = [
   "https://images.unsplash.com/profile-1699557651871-54656a2f2f63image?w=32&dpr=1&crop=faces&bg=%23fff&h=32&auto=format&fit=crop",
   "https://images.unsplash.com/profile-1687957948135-fbcfb0260786?w=150&dpr=1&crop=faces&bg=%23fff&h=150&auto=format&fit=crop&q=60&ixlib=rb-4.1.0",
 ];
-export async function ArtistList() {
+export const ArtistList = async () => {
   const artists = await prisma.artist.findMany({});
-  console.log(" LIST  => ", artists);
-
   return (
     <div className="text-white px-10 flex flex-col">
       {/* Header */}
@@ -46,4 +44,4 @@ export async function ArtistList() {
       </div>
     </div>
   );
-}
+};

@@ -91,14 +91,11 @@ async function getPlaylist(playlistId: number, userId: number) {
 }
 
 export default async function Playlist({ params }: { params: { id: string } }) {
-  console.log("params => ", params);
-
   const user = await getUserFromToken();
   if (!user) {
     redirect("/signin");
   }
 
-  // Get playlist data
   const playlist = await getPlaylist(Number(params.id), user.id);
 
   if (!playlist) {
