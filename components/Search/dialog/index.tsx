@@ -103,10 +103,6 @@ const Dialog = ({ setter }: { setter: onScreenActionTypeSet }): JSX.Element => {
                         playSongs={playSongs}
                       />
                     )}
-
-                    <button className="text-gray-400 hover:text-white">
-                      ×
-                    </button>
                   </li>
                 ))}
           </ul>
